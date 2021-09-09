@@ -4,5 +4,8 @@ import router from './router'
 import store from './store'
 //
 import './styles/index.less'
+import Vant from 'vant'
+// 加载vant全局样式
+import 'vant/lib/index.css'
 
-createApp(App).use(store).use(router).mount('#app')
+createApp(App).use(store).use(router).use(Vant).mount('#app')
