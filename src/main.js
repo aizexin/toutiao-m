@@ -7,5 +7,7 @@ import './styles/index.less'
 import Vant from 'vant'
 // 加载vant全局样式
 import 'vant/lib/index.css'
+// 自动设置 REM 基准值
+import 'amfe-flexible'
 
 createApp(App).use(store).use(router).use(Vant).mount('#app')
