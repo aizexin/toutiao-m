@@ -3,6 +3,10 @@ import login from '../views/login/index.vue'
 
 const routes = [
   {
+    path: '/',
+    rediraction: '/login'
+  },
+  {
     path: '/login',
     component: login
   }

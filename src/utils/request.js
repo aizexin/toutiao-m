@@ -1,8 +1,8 @@
 // 请求模块
-import axios from "axios";
+import axios from 'axios'
 
-axios.create({
-    baseURL: 'http://ttapi.research.itcast.cn/'
+const request = axios.create({
+  baseURL: 'http://ttapi.research.itcast.cn/'
 })
 
 export default request
