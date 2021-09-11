@@ -61,7 +61,7 @@
 
     <van-cell title="消息通知" is-link></van-cell>
     <van-cell title="小智同学" is-link></van-cell>
-    <van-cell v-if="user" class="logout-cell" title="退出登陆"></van-cell>
+    <van-cell v-if="user" clickable @click="onlogout" class="logout-cell" title="退出登陆"></van-cell>
     <!--/ 导航 -->
   </div>
 </template>
@@ -73,6 +73,23 @@ export default {
   components: {},
   computed: {
     ...mapState(['user'])
+  },
+  methods: {
+    onlogout() {
+      // 退出提示
+      // 在组建中需要使用this.$dialog
+      this.$dialog.confirm({
+        title: '确认退出吗'
+      })
+        .then(() => {
+          // on confirm
+          // 确认退出： 清楚登陆状态， 容器和 本地存储的user
+          this.$store.commit('setUser', null)
+        })
+        .catch(() => {
+          // on cancel
+        })
+    }
   }
 }
 </script>
