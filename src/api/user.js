@@ -13,3 +13,10 @@ export const login = data => {
     data
   })
 }
+// 每个手机号每分钟只发送一次
+export const sendSms = mobile => {
+  return request({
+    method: 'GET',
+    url: `/app/v1_0/sms/codes/${mobile}`
+  })
+}

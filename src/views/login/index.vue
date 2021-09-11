@@ -59,13 +59,13 @@
 </template>
 
 <script>
-import { login } from '../../api/user'
+import { login, sendSms } from '../../api/user'
 export default {
   name: 'LoginIndex',
   data() {
     return {
       user: {
-        mobile: '13911111111',
+        mobile: '13611111111',
         code: '246810'
       },
       userFormRules: {
@@ -88,11 +88,12 @@ export default {
       })
       // 3 提交请求
       try {
-        const res = await login(user)
-        console.log('登陆成功', res)
-        this.$toast.succes('login success')
+        const { data } = await login(user)
+        this.$store.commit('setUser', data.data)
+        console.log('登陆成功', data)
+        this.$toast.success('login success')
       } catch (err) {
-        console.log('zouLe ', err)
+        console.log('走了====catch ', err)
         if (err.response.status === 400) {
           this.$toast.fail('手机好或验证码错误')
           console.log('手机好或验证码错误')
@@ -113,6 +114,17 @@ export default {
       // 2 通过验证显示倒计时
       this.isShowCountDown = true
       // 3 发送请求
+      try {
+        await sendSms(this.sendSms(this.user.mobile))
+        this.$toast('发送成功')
+      } catch (error) {
+        // 发送失败关闭倒计时
+        this.isShowCountDown = false
+        this.$toast('发送失败')
+        if (error.response.status === 429) {
+          this.$toast('发送太频繁')
+        }
+      }
     }
   }
 }
