@@ -1,12 +1,7 @@
 <template>
   <div class="my-container">
-    <div class="header not-login">
-      <div class="login-btn" @click="$router.push('/login')">
-        <img class="mobile-image" src="./mobile.png" />
-        <span class="text">登录 / 注册</span>
-      </div>
-    </div>
-    <div class="header user-info">
+    <!-- 已登陆头部 -->
+    <div v-if="user" class="header user-info">
       <div class="base-info">
         <div class="left">
           <van-image
@@ -39,25 +34,47 @@
           <span class="text">获赞</span>
         </div>
       </div>
-      <!-- 导航 -->
-      <van-grid class="grid-nav" :column-num="2" clickable >
-        <van-grid-item class="grid-item" icon="photo-o" text="收藏">
-          <template v-slot:icon>
-            <i class="toutiao toutiao-shoucang"></i>
-          </template>
-        </van-grid-item>
-        <van-grid-item class="grid-item" icon="photo-o" text="历史">
-          <template v-slot:icon>
-            <i class="toutiao toutiao-lishi"></i>
-          </template>
-        </van-grid-item>
-      </van-grid>
-      <!--/ 导航 -->
     </div>
+    <!-- /已登陆头部 -->
+    <!-- 未登录头部 -->
+    <div v-else class="header not-login">
+      <div class="login-btn" @click="$router.push('/login')">
+        <img class="mobile-image" src="./mobile.png" />
+        <span class="text">登录 / 注册</span>
+      </div>
+    </div>
+    <!-- /未登录头部 -->
+    <!-- 宫格导航 -->
+    <van-grid class="grid-nav" :column-num="2" clickable>
+      <van-grid-item class="grid-item" text="收藏">
+        <template v-slot:icon>
+          <i class="toutiao toutiao-shoucang"></i>
+        </template>
+      </van-grid-item>
+      <van-grid-item class="grid-item" text="历史">
+        <template v-slot:icon>
+          <i class="toutiao toutiao-lishi"></i>
+        </template>
+      </van-grid-item>
+    </van-grid>
+    <!-- /宫格导航 -->
+
+    <van-cell title="消息通知" is-link></van-cell>
+    <van-cell title="小智同学" is-link></van-cell>
+    <van-cell v-if="user" class="logout-cell" title="退出登陆"></van-cell>
+    <!--/ 导航 -->
   </div>
 </template>
 
-<script setup lang="ts">
+<script>
+import { mapState } from 'vuex'
+
+export default {
+  components: {},
+  computed: {
+    ...mapState(['user'])
+  }
+}
 </script>
 
 <style scoped lang="less">
@@ -129,24 +146,30 @@
         }
       }
     }
-    .grid-nav {
-      .grid-item {
-        height: 141px;
-        i.toutiao {
-          font-size: 45px;
-        }
-        .toutiao-shoucang {
-          color: #eb5253;
-        }
-        .toutiao-lishi {
-          color: #ff9d1d;
-        }
+  }
+  .grid-nav {
+    .grid-item {
+      height: 141px;
+      i.toutiao {
+        font-size: 45px;
+      }
+      .toutiao-shoucang {
+        color: #eb5253;
+      }
+      .toutiao-lishi {
+        color: #ff9d1d;
+      }
 
-        span.text {
-          font-size: 28px;
-        }
+      span.text {
+        font-size: 28px;
       }
     }
+  }
+  .logout-cell {
+    color: #d86262;
+    margin-top: 9px;
+    text-align: center;
+    font-size: 30px;
   }
 }
 </style>

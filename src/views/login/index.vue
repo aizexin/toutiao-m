@@ -96,6 +96,8 @@ export default {
         this.$store.commit('setUser', data.data)
         console.log('登陆成功', data)
         this.$toast.success('login success')
+        // 直接back不严谨
+        this.$router.back()
       } catch (err) {
         if (err.response.status === 400) {
           this.$toast.fail('手机好或验证码错误')
