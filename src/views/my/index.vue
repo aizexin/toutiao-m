@@ -8,9 +8,9 @@
             class="avatar"
             round
             fit="cover"
-            src="https://img01.yzcdn.cn/vant/cat.jpeg"
+            :src="userInfo.photo"
           />
-          <span class="name">头条号</span>
+          <span class="name">{{userInfo.name}}</span>
         </div>
         <div class="right">
           <van-button round size="mini">编辑资料</van-button>
@@ -18,19 +18,19 @@
       </div>
       <div class="data-stats">
         <div class="data-item">
-          <span class="count">10</span>
+          <span class="count">{{userInfo.art_count}}</span>
           <span class="text">头条</span>
         </div>
         <div class="data-item">
-          <span class="count">10</span>
+          <span class="count">{{userInfo.follow_count}}</span>
           <span class="text">关注</span>
         </div>
         <div class="data-item">
-          <span class="count">10</span>
+          <span class="count">{{userInfo.fans_count}}</span>
           <span class="text">粉丝</span>
         </div>
         <div class="data-item">
-          <span class="count">10</span>
+          <span class="count">{{userInfo.like_count}}</span>
           <span class="text">获赞</span>
         </div>
       </div>
@@ -61,26 +61,46 @@
 
     <van-cell title="消息通知" is-link></van-cell>
     <van-cell title="小智同学" is-link></van-cell>
-    <van-cell v-if="user" clickable @click="onlogout" class="logout-cell" title="退出登陆"></van-cell>
+    <van-cell
+      v-if="user"
+      clickable
+      @click="onlogout"
+      class="logout-cell"
+      title="退出登陆"
+    ></van-cell>
     <!--/ 导航 -->
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex'
+import { getUserInfo } from '../../api/user'
 
 export default {
+  data() {
+    return {
+      userInfo: {}
+    }
+  },
+  created() {
+    // 如果用户登陆了， 就请求
+    if (this.user) {
+      this.loadUserInfo()
+    }
+  },
   components: {},
   computed: {
+    // 把state里面的user映射过来
     ...mapState(['user'])
   },
   methods: {
     onlogout() {
       // 退出提示
       // 在组建中需要使用this.$dialog
-      this.$dialog.confirm({
-        title: '确认退出吗'
-      })
+      this.$dialog
+        .confirm({
+          title: '确认退出吗'
+        })
         .then(() => {
           // on confirm
           // 确认退出： 清楚登陆状态， 容器和 本地存储的user
@@ -89,6 +109,15 @@ export default {
         .catch(() => {
           // on cancel
         })
+    },
+    async loadUserInfo() {
+      try {
+        const { data } = await getUserInfo()
+        this.userInfo = data.data
+        console.log(data)
+      } catch (error) {
+        this.$toast('获取数据失败，请稍后重试')
+      }
     }
   }
 }
