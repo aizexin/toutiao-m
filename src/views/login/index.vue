@@ -93,7 +93,6 @@ export default {
         console.log('登陆成功', data)
         this.$toast.success('login success')
       } catch (err) {
-        console.log('走了====catch ', err)
         if (err.response.status === 400) {
           this.$toast.fail('手机好或验证码错误')
           console.log('手机好或验证码错误')
