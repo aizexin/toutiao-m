@@ -16,14 +16,9 @@
     <!-- /导航栏 -->
 
     <!-- 频道列表 -->
-    <van-tabs class="chanel-tabs"
-        animated swipeable swipe-threshold="4">
-      <van-tab
-        v-for="index in 5"
-        :title="'标签 ' + index"
-        :key="index"
-      >
-        内容 {{ index }}
+    <van-tabs class="chanel-tabs" animated swipeable swipe-threshold="4">
+      <van-tab v-for="item in channels" :title="item.name" :key="item.id">
+        内容 {{ item.name }}
       </van-tab>
       <template v-slot:nav-right>
         <div class="placeholder"></div>
@@ -37,10 +32,27 @@
 </template>
 
 <script>
+import { getUserChannels } from '../../api/user'
 export default {
+  created() {
+    this.loadChannels()
+  },
   data() {
     return {
-      active: 0
+      active: 0,
+      // 频道列表
+      channels: []
+    }
+  },
+  methods: {
+    async loadChannels() {
+      try {
+        const { data } = await getUserChannels()
+        this.channels = data.data.channels
+        console.log(data)
+      } catch (error) {
+        this.$toast('获取频道失败')
+      }
     }
   }
 }
