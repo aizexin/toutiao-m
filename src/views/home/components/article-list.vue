@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="article-list">
     <van-pull-refresh
       v-model="refreshing"
       @refresh="onRefresh"
@@ -106,4 +106,9 @@ export default {
 </script>
 
 <style scoped>
+.article-list {
+  /* vh视口单位 */
+  height: 79vh;
+  overflow-y: auto;
+}
 </style>
