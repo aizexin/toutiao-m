@@ -4,7 +4,7 @@
     <router-view />
     <!-- /子路由出口 -->
     <!-- 标签导航栏 -->
-    <van-tabbar route class="layout-tabbar" v-model="active">
+    <van-tabbar route class="layout-tabbar">
       <van-tabbar-item to="/home">
         <template v-slot:icon>
           <i class="toutiao toutiao-shouye"></i>

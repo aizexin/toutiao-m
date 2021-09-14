@@ -4,7 +4,7 @@
       v-model="refreshing"
       @refresh="onRefresh"
       :success-text="refreshSuccessText"
-      success-duration=1000
+      success-duration="1000"
     >
       <van-list
         v-model="loading"
@@ -14,11 +14,11 @@
         error-text="请求失败，点击重新加载"
         @load="onLoad"
       >
-        <van-cell
-          v-for="(article, index) in list"
+        <article-item
+          v-for="(item, index) in list"
           :key="index"
-          :title="article.title"
-        />
+          :item="item"
+        ></article-item>
       </van-list>
     </van-pull-refresh>
   </div>
@@ -26,7 +26,10 @@
 
 <script>
 import { getArticles } from '../../../api/article'
+import articleItem from '@/components/article-item/index.vue'
+
 export default {
+  components: { articleItem },
   props: {
     channel: {
       type: Object,
@@ -79,6 +82,8 @@ export default {
         // 请求失败loading关闭
         this.loading = false
       }
+      console.log(this.list)
+      console.log(this.list[1].title)
     },
     async onRefresh() {
       // 请求获取数据
