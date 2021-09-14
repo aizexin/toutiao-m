@@ -11,5 +11,7 @@ import Vant from 'vant'
 import 'vant/lib/index.css'
 // 自动设置 REM 基准值
 import 'amfe-flexible'
+// 加载dayjs
+import './utils/dayjs'
 
 createApp(App).use(store).use(router).use(Vant).mount('#app')

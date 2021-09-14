@@ -22,20 +22,17 @@
       <div class="label-info-wrap">
         <span>{{ item.aut_name }}</span>
         <span>{{ item.comm_count }}评论</span>
-        <span>{{ item.pubdate }}</span>
+        <span>{{ relativeTime }}</span>
       </div>
     </template>
     <template v-if="item.cover.type === 1" v-slot:value>
-      <van-image
-        class="right-cover"
-        fit="cover"
-        :src="item.cover.images[0]"
-      />
+      <van-image class="right-cover" fit="cover" :src="item.cover.images[0]" />
     </template>
   </van-cell>
 </template>
 
 <script>
+import { filtertime } from '../../utils/dayjs'
 export default {
   name: 'articleItem',
   props: {
@@ -44,10 +41,13 @@ export default {
       reuqired: true
     }
   },
+  computed: {
+    relativeTime() {
+      return filtertime(this.item.pubdate)
+    }
+  },
   watch: {},
-  created() {
-    console.log('====+' + this.item)
-  }
+  created() {}
 }
 </script>
 
