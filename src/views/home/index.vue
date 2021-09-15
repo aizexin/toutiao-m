@@ -19,30 +19,49 @@
     <van-tabs class="chanel-tabs" animated swipeable swipe-threshold="4">
       <van-tab v-for="item in channels" :title="item.name" :key="item.id">
         <!-- 文章列表 -->
-        <article-list :channel="item"/>
+        <article-list :channel="item" />
         <!-- /文章列表 -->
       </van-tab>
       <template v-slot:nav-right>
         <div class="placeholder"></div>
-        <div class="more">
+        <div class="more" @click="onclickEidtChannel">
           <i class="toutiao toutiao-gengduo"></i>
         </div>
       </template>
     </van-tabs>
     <!-- /频道列表 -->
+
+    <!-- 编辑弹出曾 -->
+    <van-popup
+      :show="isChannelEidtShow"
+      closeable
+      close-icon-position="top-left"
+      position="bottom"
+      :style="{ height: '100%' }"
+      @click-close-icon="isChannelEidtShow = flase"
+    >
+      <channel-edit></channel-edit>
+    </van-popup>
+    <!-- /编辑弹出曾 -->
   </div>
 </template>
 
 <script>
 import { getUserChannels } from '../../api/user'
 import articleList from './components/article-list.vue'
+import ChannelEdit from './components/channel-edit.vue'
 export default {
-  components: { articleList },
+  components: {
+    articleList,
+    ChannelEdit
+  },
   created() {
     this.loadChannels()
   },
   data() {
     return {
+      // 控制频道编辑弹出
+      isChannelEidtShow: false,
       active: 0,
       // 频道列表
       channels: []
@@ -57,6 +76,10 @@ export default {
       } catch (error) {
         this.$toast('获取频道失败')
       }
+    },
+    onclickEidtChannel() {
+      console.log('onclickEidtChannel')
+      this.isChannelEidtShow = true
     }
   }
 }
