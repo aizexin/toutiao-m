@@ -45,4 +45,16 @@ const router = createRouter({
   routes
 })
 
+// 挂载路由导航守卫,to表示将要访问的路径，from表示从哪里来，next是下一个要做的操作 next('/login')强制跳转login
+router.beforeEach((to, from, next) => {
+  console.log('xxxxxx' + from.path)
+  if (to.path === '/') return next('/home')
+  // if (from.location.host === 'https://open.work.weixin.qq.com/') {
+  //   return next('/login')
+  // }
+  // const tokenStr = window.sessionStorage.getItem('token')
+  // if (!tokenStr) return next('/loginQR')
+  next()
+})
+
 export default router
